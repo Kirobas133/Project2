@@ -11,12 +11,17 @@ ACppBaseActor::ACppBaseActor()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	SetRootComponent(Mesh);
+
+	Amplitude = 70.0;
+	Frequency = 4.0;
+
 }
 
 // Called when the game starts or when spawned
 void ACppBaseActor::BeginPlay()
 {
 	Super::BeginPlay();
+	InitialLocation = this->GetActorLocation();
 	
 }
 
@@ -25,5 +30,14 @@ void ACppBaseActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ACppBaseActor::SinMovement() {
+  float NewZLocation =
+      sin(Frequency * GetWorld()->TimeSeconds) * Amplitude + InitialLocation.Z;
+  FVector NewLocation = InitialLocation;
+  NewLocation.Z = NewZLocation;
+ 
+  this->SetActorLocation(NewLocation);
 }
 
